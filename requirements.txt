@@ -4,4 +4,5 @@ datasets
 mistralai
 python-Levenshtein
 sentence-transformers
+matplotlib
 python-dotenv

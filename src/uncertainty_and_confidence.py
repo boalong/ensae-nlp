@@ -5,18 +5,22 @@ import pandas as pd
 def uncertainty_and_confidence_scores(NUM_ANSWERS, methods=['jaccard', 'levenshtein', 'contra', 'entail', 'sbert']):
     filenames = sorted(os.listdir('data/generated_responses'))
     for filename in filenames:
+        df = pd.read_parquet(f'data/assessed_responses/{filename}')
         pairwise_df = pd.read_parquet(f'data/pairs_with_similarity/{filename}')
 
         for method in methods:
-            pairwise_df[f'{method}_U_EigV'] = None
-            pairwise_df[f'{method}_U_Deg'] = None
-            pairwise_df[f'{method}_C_Deg'] = None
-            pairwise_df[f'{method}_U_Ecc'] = None
-            pairwise_df[f'{method}_C_Ecc'] = None
+            df[f'{method}_U_EigV'] = None
+            df[f'{method}_U_Deg'] = None
+            df[f'{method}_C_Deg'] = None
+            df[f'{method}_U_Ecc'] = None
+            df[f'{method}_C_Ecc'] = None
 
         num_pairs = NUM_ANSWERS*(NUM_ANSWERS-1) // 2
+        k = 0
         for start in range(0, len(pairwise_df), num_pairs):
             chunk = pairwise_df.iloc[start:start+NUM_ANSWERS]
+            df_chunk = df.iloc[k*NUM_ANSWERS:(k+1)*NUM_ANSWERS]
+            k += 1
 
             for method in methods:
 
@@ -43,12 +47,12 @@ def uncertainty_and_confidence_scores(NUM_ANSWERS, methods=['jaccard', 'levensht
                 U_Ecc = np.linalg.norm(v_primes)
                 C_Ecc = - np.sqrt(np.sum(v_primes**2, axis=1))
 
-                chunk[f'{method}_U_EigV'] = U_EigV
-                chunk[f'{method}_U_Deg'] = U_Deg
-                chunk[f'{method}_C_Deg'] = C_Deg
-                chunk[f'{method}_U_Ecc'] = U_Ecc
-                chunk[f'{method}_C_Ecc'] = C_Ecc
+                df_chunk[f'{method}_U_EigV'] = U_EigV
+                df_chunk[f'{method}_U_Deg'] = U_Deg
+                df_chunk[f'{method}_C_Deg'] = C_Deg
+                df_chunk[f'{method}_U_Ecc'] = U_Ecc
+                df_chunk[f'{method}_C_Ecc'] = C_Ecc
 
-                pairwise_df.update(chunk)
+                df.update(df_chunk)
 
-        pairwise_df.to_parquet(f'data/responses_with_confidence/{filename}', index=False)
+        df.to_parquet(f'data/responses_with_confidence/{filename}', index=False)
