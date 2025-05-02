@@ -1,12 +1,14 @@
 from datasets import load_dataset
 import pandas as pd
+
 from src.generate_responses import generate_responses
 from src.assess_responses import assess_responses
-#, src.evaluate_responses, src.similarity, src.uncertainty_and_confidence
+from src.similarity import compute_similarities
+from src.uncertainty_and_confidence import uncertainty_and_confidence_scores
 
 
 NUM_EXAMPLES = 10
-NUM_ANSWERS = 1
+NUM_ANSWERS = 3
 MODELS_LIST = [
         ('qwen2.5', 'Qwen/Qwen2.5-7B-Instruct')
     ]
@@ -28,15 +30,15 @@ df['answer'] = df['answer'].apply(lambda x: x['normalized_value'])
 ###########################################
 
 # 1. Generate m=NUM_ANSWERS responses per question
-generate_responses(df, NUM_ANSWERS, MODELS_LIST)
+# generate_responses(df, NUM_ANSWERS, MODELS_LIST)
 
 # 2. Assess responses with Mistral API
-assess_responses()
+# assess_responses()
 
 # 3. Compute similarities scores
-
+# compute_similarities()
 
 # 4. Compute uncertainty and confidence estimates
-
+uncertainty_and_confidence_scores(NUM_ANSWERS)
 
 # 5. Evaluatation metrics: AUROC and AUARC
