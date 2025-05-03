@@ -44,8 +44,8 @@ def assess_responses():
     for filename in tqdm(filenames):
         df = pd.read_parquet(f'data/generated_responses/{filename}')
         scores = []
-        for idx, row in df.iterrows():
+        for idx, row in tqdm(df.iterrows(), total=df.shape[0]):
             scores.append(_assess_response(row['question'], row['answer'], row['completion']))
-            time.sleep(2)
+            time.sleep(5)
         df['scores'] = scores
         df.to_parquet(f'data/assessed_responses/{filename}', index=False)

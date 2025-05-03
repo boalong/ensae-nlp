@@ -21,9 +21,7 @@ MODELS_LIST = [
 dataset = load_dataset("trivia_qa", "rc.nocontext", split="validation")
 df = pd.DataFrame(dataset)
 df = df.drop_duplicates('question_id')[['question_id', 'question', 'answer']]
-# df = pd.DataFrame(dataset).iloc[:NUM_EXAMPLES].reset_index(drop=True) # to save costs
-df = pd.DataFrame(dataset).iloc[:NUM_EXAMPLES].reset_index(drop=True) # to save costs
-df = df.iloc[580:NUM_EXAMPLES] # to save costs
+df = df.iloc[:NUM_EXAMPLES].reset_index(drop=True) # to save costs
 df['answer'] = df['answer'].apply(lambda x: x['normalized_value'])
 
 
@@ -32,8 +30,8 @@ df['answer'] = df['answer'].apply(lambda x: x['normalized_value'])
 ###########################################
 
 # 1. Generate m=NUM_ANSWERS responses per question
-print('Generating responses...')
-generate_responses(df, NUM_ANSWERS, MODELS_LIST)
+# print('Generating responses...')
+# generate_responses(df, NUM_ANSWERS, MODELS_LIST)
 
 # 2. Assess responses with Mistral API
 print('Assessing respsonses...')
