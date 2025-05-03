@@ -5,6 +5,7 @@ from src.generate_responses import generate_responses
 # from src.assess_responses import assess_responses
 from src.similarity import compute_similarities
 from src.uncertainty_and_confidence import uncertainty_and_confidence_scores
+from src.evaluation_metrics import compute_all_metrics
 
 
 NUM_EXAMPLES = 1000
@@ -34,6 +35,7 @@ MODELS_LIST = [
 # compute_similarities(NUM_EXAMPLES)
 
 # 4. Compute uncertainty and confidence estimates
-uncertainty_and_confidence_scores(NUM_ANSWERS)
+# uncertainty_and_confidence_scores(NUM_ANSWERS)
 
 # 5. Evaluatation metrics: AUROC and AUARC
+compute_all_metrics()
