@@ -3,6 +3,7 @@ from mistralai import Mistral
 from dotenv import load_dotenv
 import pandas as pd
 import time
+from tqdm import tqdm
 
 load_dotenv() # take environment variables
 
@@ -40,7 +41,7 @@ Rating: (Only the rating)"""
 
 def assess_responses():
     filenames = sorted(os.listdir('data/generated_responses'))
-    for filename in filenames:
+    for filename in tqdm(filenames):
         df = pd.read_parquet(f'data/generated_responses/{filename}')
         scores = []
         for idx, row in df.iterrows():
