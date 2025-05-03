@@ -1,6 +1,7 @@
 transformers
 accelerate
 datasets
+hf_xet
 mistralai
 python-Levenshtein
 sentence-transformers

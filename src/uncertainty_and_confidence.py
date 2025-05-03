@@ -1,11 +1,14 @@
 import numpy as np
 import os
 import pandas as pd
+from tqdm import tqdm
+
+pd.options.mode.chained_assignment = None
 
 def uncertainty_and_confidence_scores(NUM_ANSWERS, methods=['jaccard', 'levenshtein', 'contra', 'entail', 'sbert']):
     filenames = sorted(os.listdir('data/generated_responses'))
-    for filename in filenames:
-        df = pd.read_parquet(f'data/assessed_responses/{filename}')
+    for filename in tqdm(filenames):
+        df = pd.read_parquet(f'data/generated_responses/{filename}')
         pairwise_df = pd.read_parquet(f'data/pairs_with_similarity/{filename}')
 
         for method in methods:
@@ -33,6 +36,8 @@ def uncertainty_and_confidence_scores(NUM_ANSWERS, methods=['jaccard', 'levensht
 
                 L = np.eye(NUM_ANSWERS) - D_invhalf @ W @ D_invhalf
                 eigenvalues, eigenvectors = np.linalg.eig(L)
+                eigenvalues = eigenvalues.real
+                eigenvectors = eigenvectors.real
 
                 U_EigV = np.sum(np.maximum(0, 1 - eigenvalues))
 
