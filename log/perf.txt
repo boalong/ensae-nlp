@@ -1,4 +1,4 @@
-jaccard: 0.020574 seconds
-levenshtein: 0.010354 seconds
-nli: 20.451838 seconds
-sbert: 3.680544 seconds
+jaccard: 0.006764 seconds
+levenshtein: 0.005765 seconds
+nli: 26.034008 seconds
+sbert: 2.121952 seconds
