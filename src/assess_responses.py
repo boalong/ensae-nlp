@@ -11,6 +11,7 @@ load_dotenv() # take environment variables
 try:
     api_key = os.environ["MISTRAL_API_KEY"]
 except:
+    print('PLEASE PROVIDE API KEY')
     api_key = ''
 
 model = "mistral-large-latest"
