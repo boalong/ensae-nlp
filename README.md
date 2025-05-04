@@ -39,7 +39,7 @@ The implementation requires only black-box access to LLMs (no need for token-lev
 
 ### Results
 
-The reproduction confirms the original paper's findings???
+Results are detailed in the report.
 
 ## Structure of the project
 
@@ -70,6 +70,7 @@ The tree of this project is:
 │   └── perf.txt
 ├── main.py
 ├── README.md
+├── report.pdf
 ├── requirements.txt
 ├── results
 │   └── results.csv

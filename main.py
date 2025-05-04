@@ -2,7 +2,7 @@ import pandas as pd
 from datasets import load_dataset
 
 from src.generate_responses import generate_responses
-# from src.assess_responses import assess_responses
+from src.assess_responses import assess_responses
 from src.similarity import compute_similarities
 from src.uncertainty_and_confidence import uncertainty_and_confidence_scores
 from src.evaluation_metrics import compute_all_metrics
@@ -17,6 +17,8 @@ MODELS_LIST = [
 ###########################################
 ### MAIN STEPS ############################
 ###########################################
+
+# UNCOMMENT SECTIONS THAT YOU WANT TO REPRODUCE
 
 # 1. Generate m=NUM_ANSWERS responses per question
 # Load the validation split of TriviaQA, rc.nocontext subset
