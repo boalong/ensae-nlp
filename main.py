@@ -32,10 +32,10 @@ MODELS_LIST = [
 # assess_responses()
 
 # 3. Compute similarities scores
-compute_similarities(NUM_EXAMPLES)
+# compute_similarities(NUM_EXAMPLES)
 
 # 4. Compute uncertainty and confidence estimates
-# uncertainty_and_confidence_scores(NUM_ANSWERS)
+uncertainty_and_confidence_scores(NUM_ANSWERS)
 
 # 5. Evaluatation metrics: AUROC and AUARC
 # compute_all_metrics()
