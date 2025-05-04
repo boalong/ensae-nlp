@@ -16,9 +16,11 @@ def _extract_leading_digits(text):
         print(f'Problem: {text}')
         return 0 # invalidate the response otherwise
 
-### AUARC
 def _plot_AUARC(rejection_fractions, accuracies, label):
-    plt.plot(rejection_fractions, accuracies, marker='o', label=label)
+    if 'oracle' in label:
+        plt.plot(rejection_fractions, accuracies, 'b--', label=label)
+    else:
+        plt.plot(rejection_fractions, accuracies, label=label)
 
 def _compute_AUARC(y, uq_scores, mode, label, plot=True): # mode is C or U
     if mode == 'C':
@@ -49,25 +51,21 @@ def compute_all_metrics(NUM_ANSWERS, plot=True, methods=['jaccard', 'levenshtein
     filenames = sorted(os.listdir('data/generated_responses'))
 
     scores = []
-    for filename in tqdm(filenames[:3]):
+    for filename in tqdm(filenames):
         df_with_assessment = pd.read_parquet(f'data/assessed_responses/{filename}')
         df_with_assessment['scores'] = df_with_assessment['scores'].apply(_extract_leading_digits).astype(float)
         y = (df_with_assessment['scores'] >= 70).astype(int)
         scores.extend(y.to_list())
 
     y = np.array(scores)
-    print(y.shape)
     y_reshaped = y.reshape(-1, NUM_ANSWERS)
     expected_accuracies = y_reshaped.mean(axis=1)
-    print(expected_accuracies.shape)
 
     if plot:
         plt.figure(figsize=(6,4))
         plt.xlabel('Rejection Rate')
         plt.ylabel('Average Accuracy')
         plt.title('ARC')
-        plt.xlim(0, 1)
-        plt.ylim(0, 1)
 
     results = []
     for method in tqdm(methods):
@@ -80,26 +78,21 @@ def compute_all_metrics(NUM_ANSWERS, plot=True, methods=['jaccard', 'levenshtein
             uq_method = method + uq_calc
 
             uq_scores = []
-            for filename in filenames[:3]:
+            for filename in filenames:
                 df_with_confidence = pd.read_parquet(f'data/responses_with_confidence/{filename}')                
                 uq_scores.extend(df_with_confidence[uq_method].to_list())
 
             uq_scores = np.array(uq_scores)[::NUM_ANSWERS]
-            print(uq_scores.shape)
             results.append({
                 'uq_method': uq_method,
                 'auarc': _compute_AUARC(expected_accuracies, uq_scores, 'U', label=uq_method, plot=plot_method)
             })
 
-            break
-
         for uq_calc in ['_C_Deg', '_C_Ecc']: # confidence, individual accuracy
-
-            continue
             uq_method = method + uq_calc
 
             uq_scores = []
-            for filename in filenames[:3]:
+            for filename in filenames:
                 df_with_confidence = pd.read_parquet(f'data/responses_with_confidence/{filename}')                
                 uq_scores.extend(df_with_confidence[uq_method].to_list())
 
@@ -114,11 +107,11 @@ def compute_all_metrics(NUM_ANSWERS, plot=True, methods=['jaccard', 'levenshtein
         'auarc': np.mean(y)
     })
     if plot:
-        plt.plot(np.mean(y), 'r--')
+        plt.plot(np.linspace(0, 1, 20), [np.mean(y)]*20, 'r--')
 
     results.append({
         'uq_method': 'oracle_U',
-        'auarc': _compute_AUARC(expected_accuracies, expected_accuracies, 'C', label='oracle_U', plot=plot)
+        'auarc': _compute_AUARC(expected_accuracies, expected_accuracies, 'C', label='oracle_U', plot=False)
     })
 
     results.append({
