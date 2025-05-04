@@ -1,13 +1,14 @@
+import os
+import time
+import re
+
+import numpy as np
 import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
-import re
 import Levenshtein
-import os
-import time
-import numpy as np
 
 def compute_similarities(NUM_EXAMPLES, methods=['jaccard', 'levenshtein', 'nli', 'sbert']):
     exec_times = {method: 0 for method in methods}
@@ -71,7 +72,7 @@ def compute_similarities(NUM_EXAMPLES, methods=['jaccard', 'levenshtein', 'nli',
             similarities = ((embeddings1 * embeddings2).sum(dim=1) + 1) / 2  # shift and rescale to [0, 1]
             return similarities
 
-    filenames = sorted(os.listdir('data/generated_responses'))[:2]
+    filenames = sorted(os.listdir('data/generated_responses'))
     for filename in tqdm(filenames):
         df = pd.read_parquet(f'data/generated_responses/{filename}')
 

@@ -1,9 +1,10 @@
-import numpy as np
-from sklearn import metrics
-import matplotlib.pyplot as plt
-import re
-import pandas as pd
 import os
+import re
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn import metrics
 from tqdm import tqdm
 
 # Utility function to format the score given by the LLM

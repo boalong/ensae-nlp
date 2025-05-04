@@ -1,5 +1,5 @@
-from datasets import load_dataset
 import pandas as pd
+from datasets import load_dataset
 
 from src.generate_responses import generate_responses
 # from src.assess_responses import assess_responses
@@ -32,10 +32,10 @@ MODELS_LIST = [
 # assess_responses()
 
 # 3. Compute similarities scores
-# compute_similarities(NUM_EXAMPLES)
+compute_similarities(NUM_EXAMPLES)
 
 # 4. Compute uncertainty and confidence estimates
 # uncertainty_and_confidence_scores(NUM_ANSWERS)
 
 # 5. Evaluatation metrics: AUROC and AUARC
-compute_all_metrics()
+# compute_all_metrics()

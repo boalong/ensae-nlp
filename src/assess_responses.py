@@ -1,9 +1,10 @@
 import os
+import time
+
+import pandas as pd
+from tqdm import tqdm
 from mistralai import Mistral
 from dotenv import load_dotenv
-import pandas as pd
-import time
-from tqdm import tqdm
 
 load_dotenv() # take environment variables
 

@@ -1,9 +1,10 @@
-import time
-from tqdm import tqdm
-import torch
 import gc
-from transformers import AutoModelForCausalLM, AutoTokenizer
+import time
+
 import pandas as pd
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from tqdm import tqdm
 
 def generate_responses(df, NUM_ANSWERS, MODELS_LIST):
     for model_name, model_id in MODELS_LIST:
