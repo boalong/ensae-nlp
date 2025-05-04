@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 
 load_dotenv() # take environment variables
 
-api_key = os.environ["MISTRAL_API_KEY"]
+try:
+    api_key = os.environ["MISTRAL_API_KEY"]
+except:
+    api_key = ''
+
 model = "mistral-large-latest"
 client = Mistral(api_key=api_key)
 
